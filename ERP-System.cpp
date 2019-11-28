@@ -36,7 +36,10 @@ public:
     {
         cout<<"\n\tProduct Code : "<<product_code<<"\n\t Product Name : "<<item_name<<"\n\t Product Selling Price : "<<selling_price<<"\n\t Product Cost Price : "<<cost_price<<"\n\t Quantity Of Products : "<<quantity;
     }
-
+    void ViewItem()
+    {
+        cout<<"\n\t"<<product_code<<"\t"<<item_name<<"\t"<<selling_price<<"\t"<<quantity;
+    }
 };
 
 class inventory : public item
@@ -56,6 +59,27 @@ private:
     string CustomerName;
     int CustomerContactNumber;
     string CustomerAddress;
+public :
+    void setcustomerId(int cid)
+    {
+        CustomerID=cid;
+    }
+    void setcustomerName(string cname)
+    {
+        CustomerName=cname;
+    }
+    void setcustomerContactNumber(int ccn)
+    {
+        CustomerContactNumber=ccn;
+    }
+    void setcustomerAddress(string caddress)
+    {
+        CustomerAddress=caddress;
+    }
+    void displayCustomer()
+    {
+        cout<<"\n\tCustomer Id : "<<CustomerID<<"\n\tCustomer Name : "<<CustomerName<<"\n\tCustomer's Contact Number : "<<"\n\tCustomer's Address : "<<CustomerAddress<<endl;
+    }
 
 };
 
@@ -64,6 +88,7 @@ class allCustomers
 protected:
     customer customers[10];
 };
+
 class store : public inventory, public allCustomers
 {
 public:
@@ -120,11 +145,14 @@ public:
 
     void displayItem()
     {
-
+        cout<<"\n\tCode\tName\tPrice\tAvailable Que.";
+        for(int j=0; j<itemCounter; j++)
+            products[j].ViewItem();
     }
+
     void bill()
     {
-
+        displayItem();
     }
     void addItem()
     {
@@ -133,13 +161,13 @@ public:
         int itemCostPrice;
         int itemQuantity;
 
-        cout<<"Enter Item Name : "<<endl;
+        cout<<"Enter Item Name : ";
         cin>>itemName;
-        cout<<"Enter Item Selling Price (Single Unit): "<<endl;
+        cout<<"Enter Item Selling Price (Single Unit): ";
         cin>>itemSellingPrice;
-        cout<<"Enter Item Cost Price (Single Unit): "<<endl;
+        cout<<"Enter Item Cost Price (Single Unit): ";
         cin>>itemCostPrice;
-        cout<<"Enter Item Quantity : "<<endl;
+        cout<<"Enter Item Quantity : ";
         cin>>itemQuantity;
 
         products[itemCounter].setProductCode(itemCounter);
@@ -160,15 +188,15 @@ public:
 
         cout<<"Enter Product Code : ";
         cin>>selectItemNumber;
-
         cout<<"\n\n1.Update Name\n\t2.Update Selling Price\n\t3.Update Cost Price\n\t4.Update Item Quantity";
+        cout<<"Select Option : ";
         cin>>updateOption;
 
         switch(updateOption)
         {
         case 1:
         {
-            cout<<"Update Item Name : "<<endl;
+            cout<<"Update Item Name : ";
             cin>>updateItemName;
             products[selectItemNumber].setItemName(updateItemName);
         }
@@ -176,7 +204,7 @@ public:
 
         case 2:
         {
-            cout<<"Update Item Selling Price (Single Unit): "<<endl;
+            cout<<"Update Item Selling Price (Single Unit): ";
             cin>>updateItemSellingPrice;
             products[selectItemNumber].setSellPrice(updateItemSellingPrice);
         }
@@ -184,14 +212,14 @@ public:
 
         case 3:
         {
-            cout<<"Update Item Cost Price (Single Unit): "<<endl;
+            cout<<"Update Item Cost Price (Single Unit): ";
             cin>>updateItemCostPrice;
             products[selectItemNumber].setCostPrice(updateItemCostPrice);
         }
         break;
         case 4:
         {
-            cout<<"Update Item Quantity : "<<endl;
+            cout<<"Update Item Quantity : ";
             cin>>updateItemQuantity;
             products[selectItemNumber].setQuantity(updateItemQuantity);
 
@@ -209,7 +237,7 @@ public:
         cout<<"Enter Product Code (Item Code) : ";
         cin>>sItemCode;
 
-        for(int i=0; i<=itemCounter; i++)
+        for(int i=0; i<itemCounter; i++)
         {
             if(sItemCode==i)
             {
@@ -231,15 +259,51 @@ public:
     }
     void addCustomer()
     {
+        string customerName;
+        int customerContactNumber;
+        string customerAddress;
+
+        cout<<"Enter Customer Name : ";
+        cin>>customerName;
+        cout<<"Enter Customer's Contact Number : ";
+        cin>>customerContactNumber;
+        cout<<"Enter Customer's Address : ";
+        cin>>customerAddress;
+
+        customers[customerCounter].setcustomerId(customerCounter);
+        customers[customerCounter].setcustomerName(customerName);
+        customers[customerCounter].setcustomerContactNumber(customerContactNumber);
+        customers[customerCounter].setcustomerAddress(customerAddress);
+        customerCounter++;
 
     }
     void displayAllCustomers()
     {
-
+        for(int i=0; i<customerCounter; i++)
+        {
+            customers[i].displayCustomer();
+        }
     }
     void searchCustomers()
     {
-
+        int scID,flagCustomerSearch=0;
+        cout<<"Enter Customer ID : ";cin>>scID;
+        for(int i=0; i<customerCounter; i++)
+        {
+            if(scID==i)
+            {
+                flagCustomerSearch=1;
+                break;
+            }
+        }
+        if(flagCustomerSearch==1)
+        {
+            customers[scID].displayCustomer();
+        }
+        else
+        {
+            cout<<"\n\n\t\t404-Customer Not Found...";
+        }
     }
 
 };
